@@ -1,49 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SeasonDispaly from "./SeasonDispaly";
-import Spinner from "./Spinner";
+
 
 
 
 class App extends React.Component{
 
-
-    state={ lat : undefined , errorMsg : ''};
+    state={ time : new Date().toLocaleTimeString()};
 
     componentDidMount() {
-        console.log('My component was rendered to the screen');
 
-        window.navigator.geolocation.getCurrentPosition(
-            position => this.setState({lat : position.coords.latitude}),
-            err => this.setState({errorMsg : err.message})
-        );
+        setInterval(()=> this.setState({time : new Date().toLocaleTimeString()}),1000);
 
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log('My component was just updated - it re-rendered!');
-    }
-
-
-    renderContent(){
-
-        if (this.state.errorMsg && !this.state.lat) {
-            return <div>Error : {this.state.errorMsg}</div>;
-        }
-
-        if (!this.state.errorMsg && this.state.lat) {
-            return <SeasonDispaly lat = {this.state.lat}/>;
-        }
-
-        return <Spinner/>;
-    }
-
-
-
-    // must have function
     render() {
         return (
-            <div>{this.renderContent()}</div>
+            <div> the time is : {this.state.time}</div>
         );
     }
 }
